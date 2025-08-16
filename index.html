@@ -1,0 +1,1435 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>TurnoX - Sistema PRE-PAGO de Turnos On Line</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+  <!-- Fuentes -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+
+  <!-- Iconos -->
+  <link rel="icon" type="image/png" href="https://i.ibb.co/p6Ycq6XC/Turnox-logo.png">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Open Graph para WhatsApp/Facebook -->
+  <meta property="og:title" content=">TurnoX - Sistema PRE-PAGO de Turnos On Line" />
+  <meta property="og:description" content="Turnero Pro." />
+  <meta property="og:image" content="https://i.ibb.co/p6Ycq6XC/Turnox-logo.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:url" content="https://turnox.pro/" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="TurnoX - Sistema PRE-PAGO de Turnos On Line" />
+  <meta name="twitter:description" content="Turnero Pro." />
+  <meta name="twitter:image" content="https://i.ibb.co/p6Ycq6XC/Turnox-logo.png" />
+
+  <style>
+    html {
+  scroll-behavior: smooth;
+}
+   body {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  margin: 0;
+  padding: 0;
+  background: #f8f8f8;
+  color: #533482;
+}
+    section {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.calendario {
+  margin: 20px auto;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.08);
+  border-radius: 10px;
+  max-width: 340px;
+  overflow: hidden;
+}
+.calendario-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+   background: 
+        linear-gradient(
+            135deg,
+            #d0d0d0 0%, 
+            #f0f0f0 25%, 
+            #c0c0c0 50%, 
+            #e0e0e0 75%, 
+            #d0d0d0 100%
+        ),
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,0.05) 0px,
+            rgba(255,255,255,0.05) 2px,
+            transparent 2px,
+            transparent 4px
+        );
+    background-blend-mode: overlay;
+  color: #533482;
+}
+.calendario-header button {
+  background: white;
+  border: none;
+  color: #6B6870;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.calendario-header button:hover {
+  background: #f5f5f5;
+}
+.dias-semana {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: #533482;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  padding: 8px 0;
+}
+.dias {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 10px;
+  gap: 4px;
+}
+.dia {
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+}
+.dia:hover:not(.disabled) {
+  background: #6B6870;
+  color: white;
+}
+.dia.disabled {
+  color: #ccc;
+  cursor: default;
+}
+.turnos, .formulario, #ticket {
+  background: 
+        linear-gradient(
+            135deg,
+            #d0d0d0 0%, 
+            #f0f0f0 25%, 
+            #c0c0c0 50%, 
+            #e0e0e0 75%, 
+            #d0d0d0 100%
+        ),
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,0.05) 0px,
+            rgba(255,255,255,0.05) 2px,
+            transparent 2px,
+            transparent 4px
+        );
+    background-blend-mode: overlay;
+  margin: 20px auto;
+  max-width: 305px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.05);
+  padding: 20px;
+}
+.turnos h3 {
+  margin-bottom: 15px;
+  color: #6B6870
+}
+.turno button {
+  background: #6B6870
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 14px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  margin-bottom: 10px;
+  transition: background 0.3s;
+}
+.turno button:hover {
+  background: #533482;
+}
+.formulario h3 {
+  margin-bottom: 15px;
+  color: #6B6870;
+}
+.formulario input, .formulario textarea {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+.formulario button {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  background: #533482;
+  color: white;
+  border: none;
+  padding: 12px;
+  width: 100%;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+.formulario button:hover {
+  background: #6B6870;
+}
+#ticket {
+  display: none;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: all 0.4s ease;
+}
+
+#ticket.visible {
+  display: block;
+  opacity: 1;
+  transform: scale(1);
+}
+
+
+.turnos > button {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  background: #6B6870; /* color principal */
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  margin-bottom: 10px;
+}
+
+.turnos > button:hover:not(.disabled) {
+  background: #533482;
+  transform: translateY(-2px);
+}
+
+.turnos > button.disabled {
+  background: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+#ticket button {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  background: #6B6870;
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 6px;
+  width: 100%;
+  margin-top: 15px;
+  transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+#ticket button:hover {
+  background: #533482;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+#ticket button:active {
+  transform: scale(0.95);
+}
+#ticket img#logoTicket {
+  max-width: 150px;
+  margin-bottom: 15px;
+  display: block;
+}
+/* Botón flotante */
+#botonBuscarDni {
+  position: fixed;
+  bottom: 40px;
+  right: 10px;
+  background: #6B6870;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  z-index: 1000;
+  transition: transform 0.2s;
+}
+#botonBuscarDni:hover {
+  transform: scale(1.1);
+  background: #533482;
+}
+
+/* Modal */
+#modalBuscarDni {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  display: none;
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(54, 42, 111, 0.9);
+  z-index: 2000;
+  justify-content: center;
+  align-items: center;
+}
+
+#modalBuscarDni .contenido-modal {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+}
+
+#modalBuscarDni input {
+  width: 50%;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+#modalBuscarDni button {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  background: #6B6870;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 8px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+#resultadoBusqueda {
+  max-height: 250px;        /* Limita la altura antes de que aparezca el scroll */
+  overflow-y: auto;         /* Scroll vertical cuando exceda la altura */
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.4;
+  padding-right: 5px;       /* Espacio para el scroll */
+}
+
+/* Scroll elegante */
+#resultadoBusqueda::-webkit-scrollbar {
+  width: 8px;
+}
+
+#resultadoBusqueda::-webkit-scrollbar-track {
+  background: #f1f1f1;       /* Fondo del scroll */
+  border-radius: 4px;
+}
+
+#resultadoBusqueda::-webkit-scrollbar-thumb {
+  background-color: #6B6870; /* Color del scroll */
+  border-radius: 4px;
+}
+
+#resultadoBusqueda::-webkit-scrollbar-thumb:hover {
+  background: #533482;       /* Hover más oscuro */
+}
+/* Navbar principal */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #533482;
+  color: white;
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  backdrop-filter: blur(6px);
+}
+
+.navbar-logo img,
+.navbar-logo p {
+  width: 130px;
+  opacity: 0;
+  transform: translateX(100px);
+  animation: slideInRight 1.2s cubic-bezier(0.25, 1, 0.5, 0.2) forwards,
+             saltitoSutil 6s ease-in-out 1.2s infinite; /* ciclo total de 6s */
+}
+
+@keyframes slideInRight {
+  0% {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  80% {
+    transform: translateX(-10px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes saltitoSutil {
+  0%, 80%, 100% { transform: translateY(0); } /* Pausa mayor parte del ciclo */
+  85% { transform: translateY(-4px); }  /* Pequeño pique */
+  90% { transform: translateY(0); }
+}
+
+.navbar-menu {
+  display: flex;
+  gap: 20px;
+  transition: max-height 0.3s ease-out;
+}
+
+.navbar-menu .nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.navbar-menu .nav-link:hover {
+  background-color: #6B6870;
+}
+
+/* Botón hamburguesa */
+.navbar-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+/* Estado de X */
+.navbar-toggle.active i {
+  transform: rotate(90deg);
+}
+.navbar-toggle.active i::before {
+  content: "\f00d"; /* Ícono X (Font Awesome) */
+}
+
+/* Modo móvil */
+@media (max-width: 768px) {
+  .navbar-menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 85px;
+    right: 2px;
+    background: rgba(54, 42, 111, 0.95);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    overflow: hidden;
+    max-height: 0;
+  }
+
+  .navbar-menu.active {
+    max-height: 300px; /* altura suficiente para mostrar todos los links */
+    transition: max-height 0.4s ease-in-out;
+  }
+
+  .navbar-toggle {
+    display: block;
+  }
+
+  .navbar-menu .nav-link {
+    padding: 10px;
+    text-align: center;
+  }
+}
+#busquedaContainer {
+  position: fixed;
+  bottom: 50px;
+  right: 85px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 1000;
+}
+
+#textoBurbuja {
+  position: absolute; /* 🔥 Esto lo saca del flujo */
+  right: -10px; /* Ajustar para ubicar junto al botón */
+  bottom: 6px;
+  background: #000;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transform: translateX(200px); /* Empieza fuera de pantalla */
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.6s ease, opacity 0.4s ease;
+  user-select: none;
+}
+
+#textoBurbuja.visible {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+/* Botón fijo */
+#botonBuscarDni {
+  background:  #6B6870;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: transform 0.2s;
+}
+
+    
+  /* Contenedor general centrado */
+  .carrusel-container {
+    position: relative;
+    max-width: 700px;
+    margin: 20px auto;
+    overflow: hidden;
+  }
+
+  /* Carrusel */
+  .carrusel {
+    display: flex;
+    transition: transform 0.3s ease;
+  }
+
+  /* Item general */
+  .carrusel .item {
+    flex: 0 0 auto;
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Imagen en PC */
+  .carrusel .item img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  /* Flechas */
+  .flecha {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.6);
+    color: white;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    z-index: 2;
+  }
+  .flecha.izquierda { left: 10px; }
+  .flecha.derecha { right: 10px; }
+
+  /* ✅ Ajustes en móviles */
+  @media (max-width: 768px) {
+    .carrusel-container {
+      max-width: 320px;
+    }
+    .carrusel .item {
+      min-width: 100%; /* UNA sola imagen visible */
+      padding: 0;
+    }
+    .carrusel .item img {
+      width: 75%;
+      max-width: 320px;
+      height: auto;
+      aspect-ratio: 1/1;
+    }
+    .flecha { display: none; } /* Sin flechas en móviles */
+  }
+    #loaderOverlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(255,255,255,0.8);
+    display: none; /* Oculto por defecto */
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 2000;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .loader {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #533482;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+    
+    .btn-redireccion {
+  background-color: #6B6870;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease;
+}
+
+.btn-redireccion:hover {
+  background-color: #6B6870;
+}
+   /* Contenedor del banner */
+  .banner {
+    position: fixed; /* fijo para cubrir pantalla */
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 9999;
+    animation: zoomFade 6s ease forwards;
+  }
+
+  /* Imagen base para PC */
+  .banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Imagen para móvil, oculta por defecto */
+  .banner img.mobile {
+    display: none;
+  }
+
+  /* Animación zoom y fade out */
+  @keyframes zoomFade {
+  0% {
+    transform: scale(1);
+    opacity: 1;           /* Antes estaba 0.8 */
+    visibility: visible;
+  }
+  83.33% {
+    transform: scale(1.1);
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    transform: scale(1.1);
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+  /* Media Query para móviles */
+  @media (max-width: 768px) {
+    .banner img.desktop {
+      display: none;
+    }
+    .banner img.mobile {
+      display: block;
+    }
+  }
+    
+    .calendario-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.mes-textos {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.mes-textos h2 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.texto-principal {
+  margin: 2px 0 0;
+  font-size: 0.9em;
+  font-weight: 600;
+  color: #533482; /* azul que venimos usando */
+}
+
+.texto-secundario {
+  margin: 0;
+  font-size: 0.75em;
+  color: #533482; 
+  font-style: italic;
+}
+.turno-button {
+  background: linear-gradient(135deg, #533482 0%, #482878 100%);
+  color: white;
+  border: none;
+  padding: 14px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 17px;
+  font-weight: 700;
+  box-shadow: 0 6px 15px rgba(83, 52, 130, 0.3);
+  margin-bottom: 12px;
+  transition: background 0.4s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  user-select: none;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.turno-button:hover:not(.disabled) {
+  background: linear-gradient(135deg, #533482 0%, #482878 100%);
+  box-shadow: 0 8px 20px rgba(54, 42, 111, 0.6);
+  transform: translateY(-3px);
+}
+
+.turno-button:active:not(.disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 4px 10px rgba(54, 42, 111, 0.8);
+}
+
+.turno-button.disabled {
+  background: #ccc;
+  color: #888;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+#modalBuscarDni img {
+  display: block;
+  margin: 0 auto 15px auto; /* Centrada y con margen abajo */
+  max-width: 250px; /* o el tamaño que prefieras */
+}
+
+    .whatsapp-vertical {
+  position: fixed;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  transform-origin: right center;
+  background-color: #533482;
+  color: white;
+  font-size: 12px;
+  font-family: Arial, sans-serif;
+  padding: 5px 10px;
+  border-radius: 5px 5px 0 0;
+  text-decoration: none;
+  z-index: 9999;
+}
+.whatsapp-vertical:hover {
+  background-color: #6B6870;
+}
+  </style>
+
+</head>
+<body>
+
+<header class="navbar">
+  <div class="navbar-logo"> 
+    
+   <img src="https://i.ibb.co/p6Ycq6XC/Turnox-logo.png" alt="Logo" />
+    <p style="text-align:center; margin:0px; font-size: 10px;">Tu Logo | Tus Colores</p>
+    
+  </div>
+ <div class="navbar-action">
+    <button class="btn-redireccion" onclick="window.location.href='panel/'">
+      Acceso
+    </button>
+  </div>
+  
+</header>
+  <!-- Botón lateral de WhatsApp -->
+<a href="https://wa.me/543434477577?text=Hola%20quiero%20más%20informaci%C3%B3n%21" 
+   class="whatsapp-vertical" 
+   target="_blank" style="font-family: 'Montserrat', sans-serif;">
+   TurnoX
+</a>
+  <!-- Loader -->
+<div id="loaderOverlay">
+  <div class="loader"></div>
+  <p>Cargando...</p>
+</div>
+
+ 
+
+<div class="calendario">
+  <p class="texto-principal" style="text-align:center; margin:5px;">Buscá los turnos disponibles</p>
+  <div class="calendario-header">
+    <button onclick="cambiarMes(-1)">←</button>
+    <div class="mes-textos">
+      <h2 id="mesActual"></h2>
+      
+      <p class="texto-secundario">Selecciona un día</p>
+    </div>
+    <button onclick="cambiarMes(1)">→</button>
+  </div>
+  <div class="dias-semana">
+    <div>Dom</div><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div>
+  </div>
+  <div class="dias" id="dias"></div>
+</div>
+
+
+<div class="turnos" id="turnos"></div>
+<div id="dniStep" style="display:none; text-align:center; margin:20px;">
+  
+  <input type="text" id="dniIngreso" placeholder="Tu DNI" maxlength="8" style="text-align: center; padding:8px; font-size:14px; margin:10px 0;">
+  <br>
+  <button onclick="verificarDni()" style="background:#533482; color:white; padding:10px 15px; border:none; border-radius:6px; cursor:pointer;">Cargar Datos con DNI</button>
+  <p style="margin:15px 0;">o</p>
+  <button onclick="mostrarFormularioNuevo()" style="background:#6B6870; color:white; padding:10px; border:none; border-radius:6px; cursor:pointer;">Es mi primera vez</button>
+  <p id="dniError" style="color:red; display:none; margin-top:10px;">No se encontró ningun cliente con ese DNI.</p>
+</div>
+
+<div class="formulario" id="formularioReserva" style="display:none;">
+  <h3>Reservar turno</h3>
+  <input type="text" id="nombre" placeholder="Nombre Comercio" value="Ej: Barbería X" readonly style="border: none; background: none; pointer-events: none; color: inherit; font-weight: bold; font-size: 16px;" />
+  <input type="text" id="nombreMascota" placeholder="Nombre y Apellido" required />
+  <input type="text" id="tipoMascota" placeholder="Dirección" required />
+  <input type="email" id="email" placeholder="Tu correo" required />
+  <input type="tel" id="telefono" placeholder="Tu teléfono" required />
+  <input type="text" id="dniMascota" placeholder="Tu DNI" />
+  <textarea id="comentario" placeholder="Comentario (opcional)"></textarea>
+  <button onclick="enviarReserva()">Confirmar y enviar</button>
+</div>
+
+<div id="ticket">
+   
+  <img id="logoTicket" src="https://i.ibb.co/p6Ycq6XC/Turnox-logo.png" alt="Logo" style="max-width: 150px; display: block; margin: 0 auto 15px;">
+  <h3 style="Font-size: 24px;">Reservaste turno</h3>
+  <p><strong><span id="tNombre"></span></strong> </p>
+  <p><strong>Nombre y Apellido:</strong> <span id="tNombreMascota"></span></p>
+  <p><strong>Dirección:</strong> <span id="tTipoMascota"></span></p>
+  <p><strong>Email:</strong> <span id="tEmail"></span></p>
+  <p><strong>Teléfono:</strong> <span id="tTelefono"></span></p>
+  <p><strong>DNI:</strong> <span id="tDniMascota"></span></p>
+  <p><strong>Fecha:</strong> <span id="tFecha"></span></p>
+  <p><strong>Turno:</strong> <span id="tTurno"></span></p>
+  <p><strong>Comentario:</strong> <span id="tComentario"></span></p>
+  <button onclick="descargarTicket()">Descargar Ticket</button>
+</div>
+<!-- Botón flotante para buscar por DNI 
+<div id="busquedaContainer">
+  <span id="textoBurbuja">Buscas una mascota extraviada?</span>
+  <button id="botonBuscarDni" title="Buscar DNI Mascota">
+    <i class="fas fa-search"></i>
+  </button>
+</div>-->
+
+
+<!-- Modal de búsqueda por DNI 
+<div id="modalBuscarDni">
+  <div class="contenido-modal"> <h2  style="font-family: 'Fredoka', sans-serif;">TurnoVet</h2>
+   <a href="https://ibb.co/3YzqJ1mQ"><img src="https://i.ibb.co/qFP7xjXq/tulogo.png" alt="Medalla-Bruzera" border="0"></a>
+    <h3>Buscar Mascota</h3>
+    <input type="text" id="inputDniBusqueda" placeholder="Ej: ABC123" maxlength="6" style="
+      text-align: center;
+      font-size: 1.2rem;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 15px;
+      font-family: 'Montserrat', sans-serif;
+    "/>
+    <button onclick="buscarDni()">Buscar</button>
+    <button onclick="cerrarModalDni()">Cerrar</button>
+    <div id="resultadoBusqueda"></div>
+  </div>
+</div>-->
+<!-- ===== CONTACTO ===== 
+  <section id="contacto" style="padding:40px; text-align:center;">
+    <h2>Contacto</h2>
+    <p>Email: contacto@tudominio.com</p>
+    <p>Tel: +54 11 5555-5555</p>
+    <p>Instagram: @tuinstagram</p>
+  </section>-->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script>
+  const diasElemento = document.getElementById("dias");
+  const mesActualElemento = document.getElementById("mesActual");
+  const turnosElemento = document.getElementById("turnos");
+  const formularioElemento = document.getElementById("formularioReserva");
+  const urlScript = "https://script.google.com/macros/s/AKfycbynvfWxVLQKACZp5mAaXeE-QXEd-BjTmucmH8zuDU-3rdWKf1wmNNgcJrEm2x8Q3r19/exec";
+
+  let fecha = new Date();
+  let diaSeleccionado = null;
+  let turnoSeleccionado = null;
+  let turnosOcupados = [];
+
+  const turnosPorDia = {
+    "lunes": ["09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30"],
+    "martes": ["09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00"],
+    "miércoles": ["09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30"],
+    "jueves": ["09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30"],
+    "viernes": ["09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30","16:30", "17:00", "17:30"],
+    "sábado": ["09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30"],
+    "domingo": [] // Sin turnos
+  };
+
+  function obtenerTurnosDisponibles(fecha) {
+    const opcionesDias = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+    const nombreDia = opcionesDias[fecha.getDay()];
+    return turnosPorDia[nombreDia] || [];
+  }
+
+  // Inicializa los turnos para la fecha actual
+  let turnosDisponibles = obtenerTurnosDisponibles(fecha);
+
+  function formatFechaDDMMYYYY(f){
+    const d = f.getDate().toString().padStart(2,'0');
+    const m = (f.getMonth()+1).toString().padStart(2,'0');
+    return `${d}/${m}/${f.getFullYear()}`;
+  }
+
+  function isoAFechaDDMMYYYY(iso){ 
+    const d = new Date(iso);
+    return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+  }
+
+  function isoATurnoHHmm(iso){
+    const d = new Date(iso);
+    return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+  }
+
+  function renderizarCalendario(){
+    diasElemento.innerHTML = "";
+    const año = fecha.getFullYear(), mes = fecha.getMonth();
+    const primerDia = new Date(año, mes, 1);
+    const ultimoDia = new Date(año, mes + 1, 0);
+    mesActualElemento.textContent = fecha.toLocaleDateString("es-ES", {month:"long", year:"numeric"});
+    const inicioSemana = primerDia.getDay();
+    const diasMes = ultimoDia.getDate();
+
+    for(let i=0; i < inicioSemana; i++){
+      diasElemento.innerHTML += `<div class="dia disabled"></div>`;
+    }
+
+    const hoy = new Date(); hoy.setHours(0,0,0,0);
+    for(let i=1; i <= diasMes; i++){
+      const dia = new Date(año, mes, i);
+      const clase = dia < hoy ? "dia disabled" : "dia";
+      diasElemento.innerHTML += `<div class="${clase}" data-dia="${i}" data-mes="${mes}" data-año="${año}">${i}</div>`;
+    }
+
+    document.querySelectorAll('.dia:not(.disabled)').forEach(el => {
+      el.addEventListener('click', () => {
+        seleccionarDia(+el.dataset.año, +el.dataset.mes, +el.dataset.dia);
+      });
+    });
+  }
+
+  function cambiarMes(dir){
+    fecha.setMonth(fecha.getMonth() + dir);
+    renderizarCalendario();
+  }
+
+  function fetchTurnosOcupados(){
+    return fetch(urlScript)
+      .then(r => r.json())
+      .then(data => {
+        turnosOcupados = (data.turnosOcupados || []).map(t => ({
+          fecha: isoAFechaDDMMYYYY(t.fecha),
+          turno: isoATurnoHHmm(t.turno)
+        }));
+      })
+      .catch(() => {
+        turnosOcupados = [];
+      });
+  }
+
+  function seleccionarDia(año, mes, dia) {
+    diaSeleccionado = new Date(año, mes, dia);
+    turnoSeleccionado = null;
+
+    turnosElemento.innerHTML = `
+      <h3>Turnos para ${formatFechaDDMMYYYY(diaSeleccionado)}</h3>
+      <p id="mensajeTurnos" style="font-style: italic; color: #555; margin-top:10px;">Buscando turnos para esta fecha...</p>
+      <div id="contenedorTurnos" style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top: 15px;"></div>
+    `;
+
+    formularioElemento.style.display = "none";
+    document.getElementById("ticket").classList.remove("visible");
+
+    fetchTurnosOcupados()
+      .then(() => {
+        // Actualiza turnosDisponibles para el día seleccionado
+        turnosDisponibles = obtenerTurnosDisponibles(diaSeleccionado);
+        renderizarTurnos();
+      })
+      .catch(() => {
+        const mensaje = document.getElementById("mensajeTurnos");
+        if (mensaje) mensaje.textContent = "Error al cargar los turnos.";
+      });
+  }
+
+  function renderizarTurnos() {
+    const fechaTexto = formatFechaDDMMYYYY(diaSeleccionado);
+    const mensaje = document.getElementById("mensajeTurnos");
+    const contenedorTurnos = document.getElementById("contenedorTurnos");
+
+    if (mensaje) mensaje.textContent = "Cargando turnos disponibles...";
+    if (contenedorTurnos) contenedorTurnos.innerHTML = "";
+
+    setTimeout(() => {
+      let count = 0;
+      turnosDisponibles.forEach(turno => {
+        const ocupado = turnosOcupados.some(t => t.fecha === fechaTexto && t.turno === turno);
+        if (!ocupado) {
+          count++;
+          const btn = document.createElement("button");
+btn.textContent = `Reservar ${turno}`;
+btn.classList.add("turno-button");  // <-- aquí agregamos clase para estilos CSS
+btn.onclick = () => mostrarFormulario(turno);
+contenedorTurnos.appendChild(btn);
+        }
+      });
+
+      if (count === 0) {
+        if (contenedorTurnos) contenedorTurnos.innerHTML = "<p><em>No hay turnos disponibles.</em></p>";
+      }
+
+      if (mensaje) mensaje.textContent = "";
+
+      turnosElemento.scrollIntoView({ behavior: "smooth" });
+    }, 600);
+  }
+
+  function mostrarFormulario(turno) {
+    turnoSeleccionado = turno;
+    formularioElemento.style.display = "none";
+    document.getElementById("dniStep").style.display = "block";
+    document.getElementById("dniStep").scrollIntoView({ behavior: "smooth" });
+  }
+
+  function mostrarFormularioNuevo() {
+    document.getElementById("dniStep").style.display = "none";
+    formularioElemento.style.display = "block";
+    formularioElemento.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function generarDniMascota(){
+    const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const nums = "0123456789";
+    return letras[Math.floor(Math.random() * 26)] + letras[Math.floor(Math.random() * 26)] + letras[Math.floor(Math.random() * 26)] +
+      nums[Math.floor(Math.random() * 10)] + nums[Math.floor(Math.random() * 10)] + nums[Math.floor(Math.random() * 10)];
+  }
+
+  function enviarReserva(){
+    mostrarLoader("Enviando reserva...");  // MOSTRAR loader al iniciar envío
+    
+    const nombre = nombreInput.value.trim();
+    const nombreMascota = nombreMascotaInput.value.trim();
+    const tipoMascota = tipoMascotaInput.value.trim();
+    const email = emailInput.value.trim();
+    const telefono = telefonoInput.value.trim();
+    let dniMascota = dniMascotaInput.value.trim();
+    const comentario = comentarioInput.value.trim();
+
+    if (!nombre || !email || !telefono || !turnoSeleccionado || !diaSeleccionado) {
+      alert("Completá todos los datos");
+      ocultarLoader(); // Ocultar loader si falta algún dato
+      return;
+    }
+    // Creamos el mensaje completo después de obtener todos los datos
+  const mensaje = encodeURIComponent(
+    `🔔 Nueva solicitud de turno:\n` +
+    `Cliente: ${nombreMascota}\n` +
+    `Nombre comercio: ${nombre}\n` +
+    `Turno: ${turnoSeleccionado} - ${formatFechaDDMMYYYY(diaSeleccionado)}\n` +
+    `Teléfono: ${telefono}\n` +
+    `Comentario: ${comentario || "Ninguno"}`
+  );
+
+  let phone = "5493434477577";
+  let apikey = "9663015";
+
+  fetch(`https://api.callmebot.com/whatsapp.php?phone=${phone}&text=${mensaje}&apikey=${apikey}`)
+    .then(() => console.log("Aviso enviado por WhatsApp"))
+    .catch(err => console.error("Error enviando WhatsApp", err));
+    
+    const datos = {
+      nombre,
+      nombreMascota,
+      tipoMascota,
+      email,
+      telefono,
+      dniMascota,
+      fecha: formatFechaDDMMYYYY(diaSeleccionado),
+      turno: turnoSeleccionado,
+      comentario
+    };
+
+    fetch(urlScript, {
+      method: "POST",
+      body: new URLSearchParams({ datos: JSON.stringify(datos) })
+    })
+    .then(r => r.json())
+    .then(res => {
+      ocultarLoader();  // OCULTAR loader justo antes de mostrar ticket o alerta
+      if (res.success) {
+        // Mostrar ticket con datos
+        tNombre.textContent = nombre;
+        tNombreMascota.textContent = nombreMascota;
+        tTipoMascota.textContent = tipoMascota;
+        tEmail.textContent = email;
+        tTelefono.textContent = telefono;
+        tDniMascota.textContent = dniMascota;
+        tFecha.textContent = formatFechaDDMMYYYY(diaSeleccionado);
+        tTurno.textContent = turnoSeleccionado;
+        tComentario.textContent = comentario;
+
+        turnosElemento.innerHTML = "";
+        formularioElemento.style.display = "none";
+        document.getElementById("ticket").classList.add("visible");
+        document.getElementById("ticket").scrollIntoView({ behavior: "smooth" });
+
+        alert("Reserva enviada exitosamente");
+      } else {
+        alert("Error al reservar turno, consulte con su veterinario");
+      }
+    });
+  }
+
+  function descargarTicket() {
+    const ticket = document.getElementById("ticket");
+    const logo = document.getElementById("logoTicket");
+
+    mostrarLoader("Generando ticket...");
+
+    if (logo.complete) {
+      capturarTicket(ticket);
+    } else {
+      logo.onload = () => capturarTicket(ticket);
+    }
+  }
+
+  function capturarTicket(ticket) {
+    html2canvas(ticket, { useCORS: true, scale: 2 })
+      .then(canvas => {
+        mostrarLoader("Descargando ticket...");
+
+        const link = document.createElement("a");
+        link.download = "turno_mascota.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+
+        setTimeout(() => ocultarLoader(), 1500);
+      })
+      .catch(() => {
+        ocultarLoader();
+        alert("Error al generar el ticket.");
+      });
+  }
+
+  // Inputs directos (asumiendo que existen en el DOM)
+  const nombreInput = document.getElementById("nombre");
+  const nombreMascotaInput = document.getElementById("nombreMascota");
+  const tipoMascotaInput = document.getElementById("tipoMascota");
+  const emailInput = document.getElementById("email");
+  const telefonoInput = document.getElementById("telefono");
+  const dniMascotaInput = document.getElementById("dniMascota");
+  const comentarioInput = document.getElementById("comentario");
+
+  // Elementos ticket para mostrar datos (asumiendo que existen)
+  const tNombre = document.getElementById("tNombre");
+  const tNombreMascota = document.getElementById("tNombreMascota");
+  const tTipoMascota = document.getElementById("tTipoMascota");
+  const tEmail = document.getElementById("tEmail");
+  const tTelefono = document.getElementById("tTelefono");
+  const tDniMascota = document.getElementById("tDniMascota");
+  const tFecha = document.getElementById("tFecha");
+  const tTurno = document.getElementById("tTurno");
+  const tComentario = document.getElementById("tComentario");
+
+  // Funciones para mostrar y ocultar loader (debes implementarlas en tu código)
+  function mostrarLoader(mensaje) {
+    // Implementa mostrar un loader con mensaje
+    console.log("Loader:", mensaje);
+  }
+  function ocultarLoader() {
+    // Implementa ocultar loader
+    console.log("Loader ocultado");
+  }
+
+  document.addEventListener("DOMContentLoaded", renderizarCalendario);
+</script>
+
+  <script>
+  // Mostrar modal
+document.getElementById("botonBuscarDni").addEventListener("click", () => {
+  document.getElementById("modalBuscarDni").style.display = "flex";
+});
+
+// Cerrar modal
+function cerrarModalDni() {
+  document.getElementById("modalBuscarDni").style.display = "none";
+  document.getElementById("resultadoBusqueda").innerHTML = "";
+  document.getElementById("inputDniBusqueda").value = "";
+}
+
+function buscarDni() {
+  const dniInput = document.getElementById("inputDniBusqueda");
+  const resultadoDiv = document.getElementById("resultadoBusqueda");
+  const dni = dniInput.value.trim().toUpperCase();
+
+  if (!dni) {
+    alert("Ingresá un ID válido");
+    return;
+  }
+
+  // Mostrar mensaje de búsqueda
+  resultadoDiv.style.color = "#533482";
+  resultadoDiv.innerHTML = "<em>Buscando mascota...</em>";
+
+  mostrarLoader(); // Si usás loader, sino podés sacar esta línea
+
+  fetch(urlScript + "?dni=" + dni)
+    .then(res => res.json())
+    .then(data => {
+      ocultarLoader();
+
+      if (data.success && data.reserva) {
+        const r = data.reserva;
+        resultadoDiv.style.color = "#533482";
+        resultadoDiv.innerHTML = `
+          <p><strong>Nombre:</strong> ${r.nombre}</p>
+          <p><strong>Mascota:</strong> ${r.nombreMascota} (${r.tipoMascota})</p>
+          <p><strong>Email:</strong> ${r.email}</p>
+          <p><strong>Teléfono:</strong> ${r.telefono}</p>
+          <p><strong>ID Mascota:</strong> ${r.dniMascota}</p>
+        `;
+      } else {
+        resultadoDiv.style.color = "red";
+        resultadoDiv.innerHTML = `<p>No se encontró ninguna reserva con ese ID.</p>`;
+      }
+    })
+    .catch(() => {
+      ocultarLoader();
+      alert("Error al buscar en la base de datos.");
+      resultadoDiv.innerHTML = "";
+    });
+}
+</script>
+  
+<script>
+ 
+  // ✅ Evento especial para "Turnos"
+  document.querySelector('a[href="#turnos"]').addEventListener('click', (e) => {
+    e.preventDefault(); // Evitar salto brusco
+
+    // Limpiar elementos visibles
+    turnosElemento.innerHTML = "";
+    formularioElemento.style.display = "none";
+    document.getElementById("ticket").classList.remove("visible");
+
+    // Renderizar calendario inicial
+    renderizarCalendario();
+
+    // Scroll suave al calendario
+    document.querySelector('.calendario').scrollIntoView({ behavior: 'smooth' });
+  });
+</script>
+<script>
+  const sections = document.querySelectorAll("section, .inicio, .galeria, .turnos, contacto");
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.2 }); // Se activa cuando 20% es visible
+
+  sections.forEach(sec => observer.observe(sec));
+</script>
+  <script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const texto = document.getElementById('textoBurbuja');
+    // Aparece a los 2 segundos
+    setTimeout(() => {
+      texto.classList.add('visible');
+      // Desaparece 3 segundos después (5s total)
+      setTimeout(() => {
+        texto.classList.remove('visible');
+      }, 6000);
+    }, 2000);
+  });
+</script>
+<script>
+  const carrusel = document.querySelector('.carrusel');
+  const flechaIzq = document.querySelector('.flecha.izquierda');
+  const flechaDer = document.querySelector('.flecha.derecha');
+  const items = document.querySelectorAll('.carrusel .item');
+  
+  let desplazamiento = 0;
+
+  function calcularAnchoItem() {
+    return carrusel.parentElement.offsetWidth; // Se mueve una "pantalla" completa
+  }
+
+  flechaDer.addEventListener('click', () => {
+    desplazamiento -= calcularAnchoItem();
+    const maxScroll = -(carrusel.scrollWidth - carrusel.parentElement.offsetWidth);
+    if (desplazamiento < maxScroll) desplazamiento = maxScroll;
+    carrusel.style.transform = `translateX(${desplazamiento}px)`;
+  });
+
+  flechaIzq.addEventListener('click', () => {
+    desplazamiento += calcularAnchoItem();
+    if (desplazamiento > 0) desplazamiento = 0;
+    carrusel.style.transform = `translateX(${desplazamiento}px)`;
+  });
+
+  // ✅ Swipe táctil en móvil
+  let startX = 0;
+  carrusel.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+  carrusel.addEventListener('touchend', e => {
+    const endX = e.changedTouches[0].clientX;
+    const anchoPantalla = calcularAnchoItem();
+    if (endX < startX - 50) desplazamiento -= anchoPantalla;
+    if (endX > startX + 50) desplazamiento += anchoPantalla;
+
+    const maxScroll = -(carrusel.scrollWidth - carrusel.parentElement.offsetWidth);
+    if (desplazamiento < maxScroll) desplazamiento = maxScroll;
+    if (desplazamiento > 0) desplazamiento = 0;
+
+    carrusel.style.transform = `translateX(${desplazamiento}px)`;
+  });
+</script>
+  <script>
+  function verificarDni() {
+  const dni = document.getElementById("dniIngreso").value.trim().toUpperCase();
+  const error = document.getElementById("dniError");
+  error.style.display = "none";
+
+  if (!dni) {
+    alert("Ingresá un ID válido");
+    return;
+  }
+
+  mostrarLoader("Verificando DNI...");
+
+  fetch(urlScript + "?dni=" + dni)
+    .then(res => res.json())
+    .then(data => {
+      ocultarLoader();
+      if (data.success && data.reserva) {
+        // Autocompletar formulario
+        const r = data.reserva;
+        nombreInput.value = r.nombre || "";
+        nombreMascotaInput.value = r.nombreMascota || "";
+        tipoMascotaInput.value = r.tipoMascota || "";
+        emailInput.value = r.email || "";
+        telefonoInput.value = r.telefono || "";
+        dniMascotaInput.value = r.dniMascota || "";
+
+        document.getElementById("dniStep").style.display = "none";
+        formularioElemento.style.display = "block";
+        formularioElemento.scrollIntoView({ behavior: "smooth" });
+      } else {
+        error.style.display = "block";
+      }
+    })
+    .catch(() => {
+      ocultarLoader();
+      alert("Error al buscar el ID en la base de datos.");
+    });
+}
+
+</script>
+  <script>
+  function mostrarLoader(mensaje = "Cargando...") {
+    document.getElementById("loaderOverlay").style.display = "flex";
+    document.querySelector("#loaderOverlay p").textContent = mensaje;
+  }
+
+  function ocultarLoader() {
+    document.getElementById("loaderOverlay").style.display = "none";
+  }
+</script>
+<script>
+  const burbuja = document.getElementById("textoBurbuja");
+
+  // Mostrar burbuja
+  setTimeout(() => {
+    burbuja.classList.add("visible");
+  }, 15000);
+
+  // Ocultar burbuja y quitar interacción
+  setTimeout(() => {
+    burbuja.classList.remove("visible");
+  }, 20000);
+</script>
+
+</body>
+</html>
